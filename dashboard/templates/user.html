@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block title %}{{ display_name }}'s Daily Summary – Research Butler{% endblock %}
+{% block content %}
+<h2>{{ display_name }}'s Daily Summary</h2>
+
+{% if tldr %}
+  <div class="card">
+    <h3>Daily TL;DR</h3>
+    <p>{{ tldr }}</p>
+  </div>
+{% endif %}
+
+{% if analysis.messages %}
+  <div class="card">
+    <h3>Trend analysis</h3>
+    <ul>
+      {% for msg in analysis.messages %}
+      <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+    {% if trend_plot %}
+    <img src="{{ url_for('static', filename=trend_plot) }}" alt="Trend plot" style="width:100%;max-width:600px;margin-top:0.5rem;" />
+    {% endif %}
+  </div>
+{% endif %}
+
+{% if trivia_fact or trivia_joke %}
+  <div class="card">
+    <h3>Quantum trivia</h3>
+    {% if trivia_fact %}
+    <p><strong>Fact:</strong> {{ trivia_fact }}</p>
+    {% endif %}
+    {% if trivia_joke %}
+    <p><strong>Joke:</strong> {{ trivia_joke }}</p>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% for category, items in reports.items() %}
+  {# Provide human‑friendly headings for SciRate and company news sections #}
+  {# Determine heading for each category #}
+  {% if category.startswith('scirate') %}
+    {% if category == 'scirate_7d' %}
+      {% set heading = 'SciRate (top 7 days)' %}
+    {% elif category == 'scirate_24h' %}
+      {% set heading = 'SciRate (top 24 hours)' %}
+    {% else %}
+      {% set heading = category.replace('_', ' ').title() %}
+    {% endif %}
+    <h3>{{ heading }}</h3>
+    {% if items %}
+      {% for item in items %}
+      <div class="card">
+        <h3><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></h3>
+        <div class="article-meta">
+          {% if item.authors %}
+            <strong>Authors:</strong> {{ item.authors|join(', ') }}<br />
+          {% endif %}
+          {% if item.published %}
+            <strong>Published:</strong> {{ item.published.strftime('%Y-%m-%d') }}<br />
+          {% endif %}
+        </div>
+        <p>{{ item.summary }}</p>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>No recent items found.</p>
+    {% endif %}
+  {% elif category == 'company_daily' or category == 'company_weekly' %}
+    {# Company news sections are a mapping from company to lists of items #}
+    {% if category == 'company_daily' %}
+      {% set heading = 'Company News (last 24 hours)' %}
+    {% else %}
+      {% set heading = 'Company News (last 7 days)' %}
+    {% endif %}
+    <h3>{{ heading }}</h3>
+    {% if items %}
+      {% for comp, comp_items in items.items() %}
+        <h4>{{ comp }}</h4>
+        {% if comp_items %}
+          {% for item in comp_items %}
+            <div class="card">
+              <h3><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></h3>
+              <div class="article-meta">
+                {% if item.authors %}
+                  <strong>Authors:</strong> {{ item.authors|join(', ') }}<br />
+                {% endif %}
+                {% if item.published %}
+                  <strong>Published:</strong> {{ item.published.strftime('%Y-%m-%d') }}<br />
+                {% endif %}
+                {% if item.journal %}
+                  <strong>Journal:</strong> {{ item.journal }}<br />
+                {% endif %}
+              </div>
+              <p>{{ item.summary }}</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No recent news for {{ comp }}.</p>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p>No company news found.</p>
+    {% endif %}
+  {% else %}
+    {# Other categories (arxiv, journals, news, special journals) are simple lists #}
+    {% if category == 'special journals' %}
+      {% set heading = 'Special Journals' %}
+    {% else %}
+      {% set heading = category|capitalize %}
+    {% endif %}
+    <h3>{{ heading }}</h3>
+    {% if items %}
+      {% for item in items %}
+      <div class="card">
+        <h3><a href="{{ item.link }}" target="_blank" rel="noopener">{{ item.title }}</a></h3>
+        <div class="article-meta">
+          {% if item.authors %}
+            <strong>Authors:</strong> {{ item.authors|join(', ') }}<br />
+          {% endif %}
+          {% if item.published %}
+            <strong>Published:</strong> {{ item.published.strftime('%Y-%m-%d') }}<br />
+          {% endif %}
+          {% if item.journal %}
+            <strong>Journal:</strong> {{ item.journal }}<br />
+          {% endif %}
+        </div>
+        <p>{{ item.summary }}</p>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>No recent items found.</p>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if conferences %}
+  <h3>Upcoming quantum conferences</h3>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Conference</th>
+          <th>Dates & Location</th>
+          <th>Submission Deadline</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for conf in conferences %}
+        <tr>
+          <td>{{ conf.name }}</td>
+          <td>{{ conf.date }} ({{ conf.location }})</td>
+          <td>{{ conf.deadline }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+
+<p><a href="{{ url_for('index') }}">Back to user list</a></p>
+{% endblock %}

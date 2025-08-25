@@ -1,0 +1,25 @@
+## Default configuration for the Quantum Insights Dashboard
+
+# Base configuration used as a fallback when a per‑user value is
+# missing.  Individual user YAML files may override these values.
+
+default:
+  max_results:
+    arxiv: 5
+    journals: 5
+    news: 5
+    # Number of results from selected journals (Nature, APS, etc.)
+    special_journals: 5
+    # Number of company news items to fetch per company for daily and weekly sections
+    company_daily: 3
+    company_weekly: 3
+  keywords:
+    - quantum computing
+    - quantum machine learning
+  companies:
+    - IBM
+    - Google Quantum
+    - IonQ
+  people:
+    - John Preskill
+    - Scott Aaronson

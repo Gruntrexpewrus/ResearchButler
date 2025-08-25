@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Research Butler{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Research Butler</h1>
+      </div>
+    </header>
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+    <!-- Loading overlay for asynchronous operations -->
+    <div id="loading-overlay" class="loading-overlay">
+      <div class="loading-content">
+        <img src="{{ url_for('static', filename='baby_doge.png') }}" alt="Loading..." />
+        <p>Generating your personalised report, please wait…</p>
+      </div>
+    </div>
+    <script>
+      // Hide the overlay after the document has loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        var overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.style.display = 'none';
+        }
+        // When clicking on user links on the index page, show the overlay
+        var userLinks = document.querySelectorAll('.user-link');
+        userLinks.forEach(function(link) {
+          link.addEventListener('click', function() {
+            overlay.style.display = 'flex';
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

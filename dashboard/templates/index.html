@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Home – Research Butler{% endblock %}
+{% block content %}
+<h2>Select a profile</h2>
+<ul class="user-list">
+  {% for user in users %}
+    <li><a href="{{ url_for('user_report', username=user.slug) }}" class="user-link">{{ user.name }}</a></li>
+  {% endfor %}
+  {% if not users %}
+    <li>No user configurations found.</li>
+  {% endif %}
+</ul>
+{% endblock %}

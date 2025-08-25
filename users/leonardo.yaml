@@ -1,0 +1,22 @@
+username: Leonardo
+keywords:
+  - quantum computing
+  - quantum machine learning
+  - quantum circuits
+  - quantum reservoir computing
+  - quantum error mitigation
+companies:
+  - Quantinuum
+  - Honeywell
+  - Quera
+  - IBM
+  - Google Quantum
+  - IonQ
+people:
+  - John Preskill
+  - Scott Aaronson
+  - Preskill
+max_results:
+  arxiv: 10
+  journals: 10
+  news: 10

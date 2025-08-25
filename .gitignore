@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.env
+.venv/
+venv/
+dist/
+build/
+
+# Flask debug files
+instance/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Model + HF caches (don’t bloat the repo)
+~/.cache/
+cache/
+.huggingface/
+huggingface/
+*.safetensors
+*.bin
+
+# Logs
+*.log
+
+# VSCode / editors
+.vscode/
+.idea/

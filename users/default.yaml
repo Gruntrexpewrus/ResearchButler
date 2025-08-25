@@ -1,0 +1,17 @@
+username: alice
+keywords:
+  - quantum computing
+  - quantum machine learning
+  - quantum circuits
+companies:
+  - IBM
+  - Google Quantum
+  - IonQ
+people:
+  - John Preskill
+  - Scott Aaronson
+  - Preskill
+max_results:
+  arxiv: 5
+  journals: 5
+  news: 5
