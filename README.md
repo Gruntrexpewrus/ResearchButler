@@ -181,4 +181,4 @@ The summarisation feature is built on top of the Hugging Face
 Transformers library.  Their documentation explains that
 summarisation generates a shorter version of a document that
 captures the important information through an abstractive
-sequence‑to‑sequence model【994451517533277†L104-L111】.
+sequence‑to‑sequence model【994451517533277†L104-L111】. The project was developed with the help of an AI coding assistant.
